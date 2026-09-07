@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ML Provenance Chain Monitor</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="container">
+    <header class="header">
+        <div>
+            <h1>Decentralized ML Provenance</h1>
+            <p>Blockchain Explorer for model and dataset lineage</p>
+        </div>
+        <div class="status-pill">Chain Node Connected</div>
+    </header>
+
+    <section id="alertBar" class="alert-bar hidden" role="status" aria-live="polite">
+        <span id="alertMessage">System healthy</span>
+        <button id="alertAction" class="alert-action hidden" onclick="focusLatestAlertBlock()">View Details -></button>
+    </section>
+
+    <section class="card events-card">
+        <div class="section-head">
+            <h2>Integrity Events</h2>
+            <small>Deletion and integrity incidents</small>
+        </div>
+        <div id="eventsList" class="events-list">No events yet.</div>
+    </section>
+
+    <section class="chain-health card">
+        <div class="health-top">
+            <h2>Chain Integrity</h2>
+            <span id="chainHealthText">0%</span>
+        </div>
+        <div class="health-bar-wrap">
+            <div id="chainHealthBar" class="health-bar"></div>
+        </div>
+        <div class="health-grid">
+            <div><strong id="verifiedBlocks">0</strong><span>Verified Blocks</span></div>
+            <div><strong id="brokenLinks">0</strong><span>Broken Links</span></div>
+            <div><strong id="totalBlocks">0</strong><span>Total Blocks</span></div>
+        </div>
+    </section>
+
+    <section id="latestBlockCard" class="latest-block card"></section>
+
+    <section class="filters card">
+        <button onclick="setFilter('all', this)" class="active">All</button>
+        <button onclick="setFilter('VALID', this)">Valid</button>
+        <button onclick="setFilter('MISSING', this)">Missing</button>
+        <button onclick="setFilter('TAMPERED', this)">Tampered</button>
+        <button onclick="setFilter('AT_RISK', this)">At Risk</button>
+        <span id="lastUpdated"></span>
+    </section>
+
+    <section class="blockchain card">
+        <div class="section-head">
+            <h2>Blockchain View</h2>
+            <small>Block list and details panel</small>
+        </div>
+
+        <div class="explorer-tools">
+            <input id="hashSearch" type="text" placeholder="Search block by hash..." />
+            <button onclick="searchByHash()">Search</button>
+            <button onclick="clearHashSearch()">Clear</button>
+            <button onclick="minePending()">Mine Pending</button>
+            <span id="pendingCount"></span>
+        </div>
+
+        <div class="explorer-layout">
+            <div>
+                <div id="chainView" class="chain-view"></div>
+            </div>
+            <aside class="details-panel card-lite">
+                <h3>Block Details</h3>
+                <div id="blockDetails">Select a block to inspect full header and body.</div>
+            </aside>
+        </div>
+    </section>
+
+    <section class="secondary-grid">
+        <div class="card charts">
+            <h3>Accuracy Trend</h3>
+            <canvas id="accuracyChart"></canvas>
+        </div>
+
+        <div class="card charts">
+            <h3>Risk Distribution</h3>
+            <canvas id="riskChart"></canvas>
+        </div>
+
+        <div class="compare card">
+            <h3>Compare Blocks</h3>
+            <div class="compare-controls">
+                <select id="compareV1"></select>
+                <select id="compareV2"></select>
+                <button onclick="compareFromSelects()">Compare</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Chain Story Mode</h3>
+            <div id="timeline" class="timeline"></div>
+        </div>
+    </section>
+
+    <footer class="footer card" id="summary"></footer>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
